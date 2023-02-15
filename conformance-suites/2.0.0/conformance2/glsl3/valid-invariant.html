@@ -82,6 +82,25 @@ void main()
     my_color = v_varying;
 }
 </script>
+<script id="vertexShaderInvariantGlPosition" type="text/something-not-javascript">#version 300 es
+precision mediump float;
+invariant gl_Position;
+
+void main()
+{
+    gl_Position = vec4(0, 0, 0, 0);
+}
+</script>
+<script id="fragmentShaderInvariantGlFragCoord" type="text/something-not-javascript">#version 300 es
+precision mediump float;
+invariant gl_FragCoord;
+out vec4 my_color;
+
+void main()
+{
+    my_color = gl_FragCoord;
+}
+</script>
 <script type="application/javascript">
 "use strict";
 description();
@@ -109,6 +128,14 @@ GLSLConformanceTester.runTests([
     fShaderSuccess: true,
     linkSuccess: true,
     passMsg: "vertex shader with invariant (separately set) varying and fragment shader with variant varying must succeed",
+  },
+  {
+    vShaderId: "vertexShaderInvariantGlPosition",
+    vShaderSuccess: true,
+    fShaderId: "fragmentShaderInvariantGlFragCoord",
+    fShaderSuccess: true,
+    linkSuccess: true,
+    passMsg: "vertex shader with invariant gl_Position and fragment shader with invariant gl_FragCoord must succeed",
   },
 ], 2);
 </script>
